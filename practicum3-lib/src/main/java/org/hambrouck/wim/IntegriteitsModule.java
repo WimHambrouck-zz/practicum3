@@ -99,7 +99,8 @@ public class IntegriteitsModule {
                 xmlSignatureFactory.newCanonicalizationMethod(CanonicalizationMethod.EXCLUSIVE,
                         (C14NMethodParameterSpec) null),
                 xmlSignatureFactory.newSignatureMethod("http://www.w3.org/2000/09/xmldsig#hmac-sha1", null),
-                references); //(SignatureMethod.RSA_SHA1, null)
+                // xmlSignatureFactory.newSignatureMethod(SignatureMethod.HMAC_SHA1, null)
+                references);
 
         // XML Signature
         KeyInfoFactory keyInfoFactory = xmlSignatureFactory.getKeyInfoFactory();

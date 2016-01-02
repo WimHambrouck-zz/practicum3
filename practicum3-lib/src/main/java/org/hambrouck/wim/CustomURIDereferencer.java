@@ -6,7 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 /**
- * Created by Wim Hambrouck on 02/01/2016.
+ * Created by Wim Hambrouck
  */
 public class CustomURIDereferencer implements URIDereferencer {
 

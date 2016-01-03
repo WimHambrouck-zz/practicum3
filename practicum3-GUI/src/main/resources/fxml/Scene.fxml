@@ -28,8 +28,8 @@
                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Button fx:id="btn_maakHandtekening" mnemonicParsing="false" onAction="#maakHandtekening" prefHeight="25.0" prefWidth="168.0" text="Maak handtekening" />
-                <Button fx:id="btn_controleerHandtekening" mnemonicParsing="false" onAction="#controleerHandtekening" prefHeight="25.0" prefWidth="164.0" text="Controleer handtekening" GridPane.columnIndex="1" />
+                <Button fx:id="btn_maakHandtekening" mnemonicParsing="false" onAction="#maakHandtekeningKlik" prefHeight="25.0" prefWidth="168.0" text="Maak handtekening" />
+                <Button fx:id="btn_controleerHandtekening" mnemonicParsing="false" onAction="#controleerHandtekeningKlik" prefHeight="25.0" prefWidth="164.0" text="Controleer handtekening" GridPane.columnIndex="1" />
             </children>
         </GridPane>
         <GridPane prefHeight="155.0" prefWidth="488.0" GridPane.columnIndex="1" GridPane.rowIndex="1">

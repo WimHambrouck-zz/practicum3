@@ -60,35 +60,38 @@ public class FXMLController implements Initializable {
     }
 
     @FXML
-    private void maakHandtekening(ActionEvent event)
+    private void maakHandtekeningKlik(ActionEvent event)
     {
         if(btn_maakHandtekening.getText().equals(MAAK_HANDTEKENING))
         {
-
             if (checkFields(true)) {
                 log(String.format("Bezig met genereren %s...", IntegriteitsModule.UITVOERBESTAND));
                 setDisable(true);
                 btn_maakHandtekening.setText(STOP);
-                try {
-                    integriteitsModule.maakHandtekening(new File(txt_invoer.getText()), txt_wachtwoord.getText());
-                    File resultFile = new File(txt_invoer.getText(), IntegriteitsModule.UITVOERBESTAND);
-                    if(resultFile.exists())
-                    {
-                        maakAlert("Klaar!", "Genereren integriteitsbestand", Alert.AlertType.CONFIRMATION);
-                        log(String.format("%s aangemaakt,%sBezig met wachten op wijzigingen in map...", IntegriteitsModule.UITVOERBESTAND, System.lineSeparator()));
-                        //TODO filewatcher
-                    } else {
-                        maakAlert("Algemene fout bij genereren integriteitsbestand (file.exists() == false)", "Genereren integriteitsbestand", Alert.AlertType.ERROR);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    maakAlert(String.format("Probleem: %s", e.getMessage()), "Daar ging iets mis!", Alert.AlertType.ERROR);
-                    log("Fout, probeer opnieuw...");
-                    setDisable(false);
-                    btn_maakHandtekening.setText(MAAK_HANDTEKENING);
-                }
+                maakHandtekening();
             }
         } else if(btn_maakHandtekening.getText().equals(STOP)){
+            setDisable(false);
+            btn_maakHandtekening.setText(MAAK_HANDTEKENING);
+        }
+    }
+
+    private void maakHandtekening() {
+        try {
+            integriteitsModule.maakHandtekening(new File(txt_invoer.getText()), txt_wachtwoord.getText());
+            File resultFile = new File(txt_invoer.getText(), IntegriteitsModule.UITVOERBESTAND);
+            if(resultFile.exists())
+            {
+                //maakAlert("Klaar!", "Genereren integriteitsbestand", Alert.AlertType.CONFIRMATION);
+                log(String.format("%s aangemaakt,%sBezig met wachten op wijzigingen in map...", IntegriteitsModule.UITVOERBESTAND, System.lineSeparator()));
+                //TODO filewatcher
+            } else {
+                maakAlert("Algemene fout bij genereren integriteitsbestand (file.exists() == false)", "Genereren integriteitsbestand", Alert.AlertType.ERROR);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            maakAlert(String.format("Probleem: %s", e.getMessage()), "Daar ging iets mis!", Alert.AlertType.ERROR);
+            log("Fout, probeer opnieuw...");
             setDisable(false);
             btn_maakHandtekening.setText(MAAK_HANDTEKENING);
         }
@@ -110,7 +113,7 @@ public class FXMLController implements Initializable {
     }
 
     @FXML
-    private void controleerHandtekening(ActionEvent actionEvent) {
+    private void controleerHandtekeningKlik(ActionEvent actionEvent) {
         if(checkFields(true))
         {
 

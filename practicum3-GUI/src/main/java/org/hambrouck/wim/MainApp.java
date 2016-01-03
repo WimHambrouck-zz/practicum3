@@ -19,7 +19,7 @@ public class MainApp extends Application {
         scene.getStylesheets().add("/styles/Styles.css");
 
 
-        stage.setTitle("Encryptor 3000");
+        stage.setTitle("DirWatcher 3000");
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();

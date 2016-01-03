@@ -3,6 +3,7 @@ package org.hambrouck.wim;
 import java.io.File;
 import java.net.URL;
 import java.nio.file.AccessDeniedException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -22,21 +23,23 @@ import javax.swing.*;
 public class FXMLController implements Initializable {
 
 
+
     @FXML
     private Parent hoofdscherm;
     @FXML
     private TextField txt_invoer;
     @FXML
-    private TextField txt_uitvoer;
+    private Button btn_kiesInvoer;
     @FXML
     private PasswordField txt_wachtwoord;
     @FXML
     private PasswordField txt_wachtwoord_herhaald;
     @FXML
-    private Button btn_kiesInvoer;
+    private Button btn_maakHandtekening;
     @FXML
-    private Button btn_kiesUitvoer;
-
+    private Button btn_controleerHandtekening;
+    @FXML
+    private Label lbl_status;
 
     @FXML
     private void kiesInvoer(ActionEvent event)
@@ -54,6 +57,24 @@ public class FXMLController implements Initializable {
     @FXML
     private void maakHandtekening(ActionEvent event)
     {
+        lbl_status.setText(lbl_status.getText() + "\n" + new Date().toString());
+        if(checkFields(true))
+        {
+            setDisable(true);
+
+        }
+    }
+
+    private void setDisable(boolean disabled) {
+        btn_controleerHandtekening.setDisable(disabled);
+        txt_invoer.setDisable(disabled);
+        btn_kiesInvoer.setDisable(disabled);
+        txt_wachtwoord.setDisable(disabled);
+        txt_wachtwoord_herhaald.setDisable(disabled);
+    }
+
+    @FXML
+    private void controleerHandtekening(ActionEvent actionEvent) {
         if(checkFields(true))
         {
 
@@ -98,4 +119,6 @@ public class FXMLController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
 
     }
+
+
 }

@@ -28,8 +28,8 @@
                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Button mnemonicParsing="false" onAction="#maakHandtekening" prefHeight="25.0" prefWidth="168.0" text="Maak handtekening" />
-                <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="164.0" text="Controleer handtekening" GridPane.columnIndex="1" />
+                <Button fx:id="btn_maakHandtekening" mnemonicParsing="false" onAction="#maakHandtekening" prefHeight="25.0" prefWidth="168.0" text="Maak handtekening" />
+                <Button fx:id="btn_controleerHandtekening" mnemonicParsing="false" onAction="#controleerHandtekening" prefHeight="25.0" prefWidth="164.0" text="Controleer handtekening" GridPane.columnIndex="1" />
             </children>
         </GridPane>
         <GridPane prefHeight="155.0" prefWidth="488.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -43,17 +43,19 @@
                 <RowConstraints maxHeight="79.0" minHeight="5.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="140.0" minHeight="3.0" prefHeight="37.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="140.0" minHeight="10.0" prefHeight="39.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="143.0" minHeight="10.0" prefHeight="28.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="140.0" minHeight="10.0" prefHeight="13.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="143.0" minHeight="10.0" prefHeight="40.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="140.0" minHeight="1.0" prefHeight="1.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Label alignment="CENTER_RIGHT" prefWidth="Infinity" text="Invoerbestand:" textAlignment="RIGHT" />
+                <Label alignment="CENTER_RIGHT" prefWidth="Infinity" text="Invoerpad:" textAlignment="RIGHT" />
                 <TextField fx:id="txt_invoer" GridPane.columnIndex="2" />
                 <Button fx:id="btn_kiesInvoer" mnemonicParsing="false" onAction="#kiesInvoer" text="..." GridPane.columnIndex="3" />
                 <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="Infinity" text="Wachtwoord:" textAlignment="RIGHT" textOverrun="CLIP" GridPane.rowIndex="1" />
                 <PasswordField fx:id="txt_wachtwoord" GridPane.columnIndex="2" GridPane.rowIndex="1" />
                 <Label prefHeight="66.0" prefWidth="100.0" text="Herhaal wachtwoord:" textAlignment="RIGHT" wrapText="true" GridPane.rowIndex="2" />
                 <PasswordField fx:id="txt_wachtwoord_herhaald" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                <Label alignment="CENTER_RIGHT" prefWidth="Infinity" text="Status:" textAlignment="RIGHT" wrapText="true" GridPane.rowIndex="3" />
+                <Label fx:id="lbl_status" prefHeight="Infinity" prefWidth="Infinity" text="Voer veldjes in en kies actie..." GridPane.columnIndex="2" GridPane.rowIndex="3" />
             </children>
         </GridPane>
     </children>

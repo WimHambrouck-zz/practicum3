@@ -30,6 +30,7 @@ import static org.junit.Assert.*;
 public class IntegriteitsModuleTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(IntegriteitsModuleTest.class);
+    public static final String WACHTWOORD = "correct horse battery stable"; //cfr: http://xkcd.com/936/
 
     @org.junit.Before
     public void setUp() throws Exception {
@@ -57,7 +58,7 @@ public class IntegriteitsModuleTest {
             try {
                 IntegriteitsModule testedInstance = new IntegriteitsModule();
 
-                testedInstance.maakHandtekening(tempDir, "correct horse battery stable"); //cfr: http://xkcd.com/936/
+                testedInstance.maakHandtekening(tempDir, WACHTWOORD);
 
                 File resultFile = new File(tempDir, IntegriteitsModule.UITVOERBESTAND);
                 assertTrue(resultFile.exists());
@@ -73,7 +74,7 @@ public class IntegriteitsModuleTest {
 
     @Test
     public void testMaakSleutel() throws NoSuchAlgorithmException, InvalidKeySpecException {
-        String wachtwoord = "correct horse battery stable"; //cfr: http://xkcd.com/936/
+        String wachtwoord = WACHTWOORD;
         String zout = "adrYq%|Sq6XLqa~kAYs=XV7n^blthYy4XztOTRLg-G5Vx^ReHcfl6MZr8uEl";
         PBEKeySpec keySpec = new PBEKeySpec(wachtwoord.toCharArray(), zout.getBytes(), 1000, 128);
         SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
@@ -98,9 +99,9 @@ public class IntegriteitsModuleTest {
             try {
                 IntegriteitsModule testedInstance = new IntegriteitsModule();
 
-                testedInstance.maakHandtekening(tempDir, "correct horse battery stable"); //cfr: http://xkcd.com/936/
+                testedInstance.maakHandtekening(tempDir, WACHTWOORD); //cfr: http://xkcd.com/936/
 
-                assertEquals(true, testedInstance.controleerIntegriteit(tempDir, "correct horse battery stable"));
+                assertEquals(true, testedInstance.controleerIntegriteit(tempDir, WACHTWOORD));
             } finally {
                 test1File.delete();
                 test2File.delete();
@@ -131,11 +132,11 @@ public class IntegriteitsModuleTest {
 
 
 
-                testedInstance.maakHandtekening(tempDir, "correct horse battery stable"); //cfr: http://xkcd.com/936/
+                testedInstance.maakHandtekening(tempDir, WACHTWOORD); //cfr: http://xkcd.com/936/
 
                 FileUtils.writeStringToFile(test1File, "ER IS MEE GEFOEFELD!!!");
 
-                assertEquals(false, testedInstance.controleerIntegriteit(tempDir, "correct horse battery stable"));
+                assertEquals(false, testedInstance.controleerIntegriteit(tempDir, WACHTWOORD));
             } finally {
                 test1File.delete();
                 test2File.delete();

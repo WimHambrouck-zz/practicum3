@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -40,37 +41,58 @@ public class FXMLController implements Initializable {
     @FXML
     private void kiesInvoer(ActionEvent event)
     {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Kies invoerbestand");
+        DirectoryChooser directoryChooser = new DirectoryChooser();
 
-        File invoerBestand = fileChooser.showOpenDialog(hoofdscherm.getScene().getWindow());
+        File invoerBestand = directoryChooser.showDialog(hoofdscherm.getScene().getWindow());
 
         if(invoerBestand != null)
         {
-            String invoerPad = invoerBestand.getAbsolutePath();
-            String uitvoerExt = invoerPad;
-            uitvoerExt = uitvoerExt.replace("\\", "/");
-            uitvoerExt = invoerPad.substring(uitvoerExt.lastIndexOf("/"));
-            uitvoerExt = uitvoerExt.substring(uitvoerExt.indexOf("."));
-
-
-            txt_invoer.setText(invoerPad);
-            txt_uitvoer.setText(String.format("%s_uitvoer%s", invoerPad.substring(0, invoerPad.indexOf(uitvoerExt)), uitvoerExt));
+            txt_invoer.setText(invoerBestand.getAbsolutePath());
         }
     }
 
     @FXML
-    private void kiesUitvoer(ActionEvent event)
+    private void maakHandtekening(ActionEvent event)
     {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Kies uitvoerbestand");
-
-        File invoerBestand = fileChooser.showOpenDialog(hoofdscherm.getScene().getWindow());
-
-        if(invoerBestand != null)
+        if(checkFields(true))
         {
-            txt_uitvoer.setText(invoerBestand.getAbsolutePath());
+
         }
+    }
+
+
+    private void maakAlert(String message, String title, Alert.AlertType alertType)
+    {
+        Alert alert = new Alert(alertType, message, ButtonType.OK);
+        alert.setTitle(title);
+        alert.setHeaderText("");
+        alert.showAndWait();
+    }
+
+    private boolean checkFields(boolean wachtwoordControle)
+    {
+        if(txt_invoer.getText().isEmpty())
+        {
+            maakAlert("Gelieve een invoerbestand op te geven.", "Probleem", Alert.AlertType.ERROR);
+            txt_invoer.requestFocus();
+            return false;
+        } else if(txt_wachtwoord.getText().isEmpty())
+        {
+            maakAlert("Gelieve een wachtwoord op te geven.", "Probleem", Alert.AlertType.ERROR);
+            txt_wachtwoord.requestFocus();
+            return false;
+        } else if(wachtwoordControle && txt_wachtwoord_herhaald.getText().isEmpty())
+        {
+            maakAlert("Gelieve je wachtwoord opnieuw op te geven.", "Probleem", Alert.AlertType.ERROR);
+            txt_wachtwoord_herhaald.requestFocus();
+            return false;
+        } else if(wachtwoordControle && (!txt_wachtwoord.getText().equals(txt_wachtwoord_herhaald.getText())))
+        {
+            maakAlert("Wachtwoorden komen niet overeen!", "Probleem", Alert.AlertType.ERROR);
+            txt_wachtwoord.requestFocus();
+            return false;
+        }
+        return true;
     }
 
     public void initialize(URL location, ResourceBundle resources) {

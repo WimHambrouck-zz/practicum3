@@ -21,15 +21,15 @@
     <children>
         <GridPane prefHeight="71.0" prefWidth="488.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
             <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="228.0" minWidth="10.0" prefWidth="106.0" />
-                <ColumnConstraints hgrow="SOMETIMES" maxWidth="381.0" minWidth="10.0" prefWidth="381.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="390.0" minWidth="10.0" prefWidth="181.0" />
+                <ColumnConstraints hgrow="SOMETIMES" maxWidth="381.0" minWidth="10.0" prefWidth="309.0" />
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Encodeer" />
-                <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="90.0" text="Decodeer" GridPane.columnIndex="1" />
+                <Button mnemonicParsing="false" onAction="#maakHandtekening" prefHeight="25.0" prefWidth="168.0" text="Maak handtekening" />
+                <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="164.0" text="Controleer handtekening" GridPane.columnIndex="1" />
             </children>
         </GridPane>
         <GridPane prefHeight="155.0" prefWidth="488.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -41,22 +41,19 @@
             </columnConstraints>
             <rowConstraints>
                 <RowConstraints maxHeight="79.0" minHeight="5.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="140.0" minHeight="3.0" prefHeight="42.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="140.0" minHeight="10.0" prefHeight="33.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="143.0" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="140.0" minHeight="3.0" prefHeight="37.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="140.0" minHeight="10.0" prefHeight="39.0" vgrow="SOMETIMES" />
+                <RowConstraints maxHeight="143.0" minHeight="10.0" prefHeight="28.0" vgrow="SOMETIMES" />
                 <RowConstraints maxHeight="140.0" minHeight="10.0" prefHeight="13.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
                 <Label alignment="CENTER_RIGHT" prefWidth="Infinity" text="Invoerbestand:" textAlignment="RIGHT" />
                 <TextField fx:id="txt_invoer" GridPane.columnIndex="2" />
                 <Button fx:id="btn_kiesInvoer" mnemonicParsing="false" onAction="#kiesInvoer" text="..." GridPane.columnIndex="3" />
-                <Label alignment="CENTER_RIGHT" prefWidth="Infinity" text="Uitvoerbestand:" textAlignment="RIGHT" GridPane.rowIndex="1" />
-                <TextField fx:id="txt_uitvoer" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                <Button fx:id="btn_kiesUitvoer" mnemonicParsing="false" onAction="#kiesUitvoer" text="..." GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="Infinity" text="Wachtwoord:" textAlignment="RIGHT" textOverrun="CLIP" GridPane.rowIndex="2" />
-                <PasswordField fx:id="txt_wachtwoord" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                <Label prefHeight="37.0" prefWidth="94.0" text="Herhaal wachtwoord:" textAlignment="RIGHT" wrapText="true" GridPane.rowIndex="3" />
-                <PasswordField fx:id="txt_wachtwoord_herhaald" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="Infinity" text="Wachtwoord:" textAlignment="RIGHT" textOverrun="CLIP" GridPane.rowIndex="1" />
+                <PasswordField fx:id="txt_wachtwoord" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                <Label prefHeight="66.0" prefWidth="100.0" text="Herhaal wachtwoord:" textAlignment="RIGHT" wrapText="true" GridPane.rowIndex="2" />
+                <PasswordField fx:id="txt_wachtwoord_herhaald" GridPane.columnIndex="2" GridPane.rowIndex="2" />
             </children>
         </GridPane>
     </children>

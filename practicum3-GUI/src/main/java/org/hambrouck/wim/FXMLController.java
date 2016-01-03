@@ -68,7 +68,16 @@ public class FXMLController implements Initializable {
                 log(String.format("Bezig met genereren %s...", IntegriteitsModule.UITVOERBESTAND));
                 setDisable(true);
                 btn_maakHandtekening.setText(STOP);
-                maakHandtekening();
+                if(maakHandtekening())
+                {
+                    //maakAlert("Klaar!", "Genereren integriteitsbestand", Alert.AlertType.CONFIRMATION);
+                    log(String.format("%s aangemaakt,%sBezig met wachten op wijzigingen in map...", IntegriteitsModule.UITVOERBESTAND, System.lineSeparator()));
+                    //TODO filewatcher
+                } else {
+                    maakAlert("Fout bij genereren integriteitsbestand.", "Daar ging iets mis!", Alert.AlertType.ERROR);
+                    setDisable(false);
+                    btn_maakHandtekening.setText(MAAK_HANDTEKENING);
+                }
             }
         } else if(btn_maakHandtekening.getText().equals(STOP)){
             setDisable(false);
@@ -76,24 +85,16 @@ public class FXMLController implements Initializable {
         }
     }
 
-    private void maakHandtekening() {
+    private boolean maakHandtekening() {
         try {
             integriteitsModule.maakHandtekening(new File(txt_invoer.getText()), txt_wachtwoord.getText());
             File resultFile = new File(txt_invoer.getText(), IntegriteitsModule.UITVOERBESTAND);
-            if(resultFile.exists())
-            {
-                //maakAlert("Klaar!", "Genereren integriteitsbestand", Alert.AlertType.CONFIRMATION);
-                log(String.format("%s aangemaakt,%sBezig met wachten op wijzigingen in map...", IntegriteitsModule.UITVOERBESTAND, System.lineSeparator()));
-                //TODO filewatcher
-            } else {
-                maakAlert("Algemene fout bij genereren integriteitsbestand (file.exists() == false)", "Genereren integriteitsbestand", Alert.AlertType.ERROR);
-            }
+            return resultFile.exists();
         } catch (Exception e) {
             e.printStackTrace();
             maakAlert(String.format("Probleem: %s", e.getMessage()), "Daar ging iets mis!", Alert.AlertType.ERROR);
             log("Fout, probeer opnieuw...");
-            setDisable(false);
-            btn_maakHandtekening.setText(MAAK_HANDTEKENING);
+            return false;
         }
     }
 

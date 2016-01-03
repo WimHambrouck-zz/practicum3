@@ -42,15 +42,6 @@ public class IntegriteitsModule {
     public static final String ZOUT = "adrYq%|Sq6XLqa~kAYs=XV7n^blthYy4XztOTRLg-G5Vx^ReHcfl6MZr8uEl";
     public static final String KEY_NAME = "quietly-graded-donkey";
 
-    public void watchMe(File map, String wachtwoord) throws IOException {
-        WatchService watchService = FileSystems.getDefault().newWatchService();
-        Path dir = Paths.get(map.getPath());
-        WatchKey key = dir.register(watchService, StandardWatchEventKinds.ENTRY_CREATE, StandardWatchEventKinds.ENTRY_DELETE, StandardWatchEventKinds.ENTRY_MODIFY);
-        key.pollEvents();
-
-    }
-
-
     public void maakHandtekening(File map, String wachtwoord) throws Exception {
 
         SecretKey key = maakSleutel(wachtwoord, ZOUT);

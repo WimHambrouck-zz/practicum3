@@ -3,6 +3,7 @@ package org.hambrouck.wim;
 import java.io.File;
 import java.net.URL;
 import java.nio.file.AccessDeniedException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.ResourceBundle;
@@ -23,6 +24,10 @@ import javax.swing.*;
 public class FXMLController implements Initializable {
 
 
+    public static final String MAAK_HANDTEKENING = "Maak handtekening";
+    public static final String STOP = "Stop";
+
+    private final IntegriteitsModule integriteitsModule = new IntegriteitsModule();
 
     @FXML
     private Parent hoofdscherm;
@@ -57,13 +62,44 @@ public class FXMLController implements Initializable {
     @FXML
     private void maakHandtekening(ActionEvent event)
     {
-        lbl_status.setText(lbl_status.getText() + "\n" + new Date().toString());
-        if(checkFields(true))
+        if(btn_maakHandtekening.getText().equals(MAAK_HANDTEKENING))
         {
-            setDisable(true);
 
+            if (checkFields(true)) {
+                log(String.format("Bezig met genereren %s...", IntegriteitsModule.UITVOERBESTAND));
+                setDisable(true);
+                btn_maakHandtekening.setText(STOP);
+                try {
+                    integriteitsModule.maakHandtekening(new File(txt_invoer.getText()), txt_wachtwoord.getText());
+                    File resultFile = new File(txt_invoer.getText(), IntegriteitsModule.UITVOERBESTAND);
+                    if(resultFile.exists())
+                    {
+                        maakAlert("Klaar!", "Genereren integriteitsbestand", Alert.AlertType.CONFIRMATION);
+                        log(String.format("%s aangemaakt,%sBezig met wachten op wijzigingen in map...", IntegriteitsModule.UITVOERBESTAND, System.lineSeparator()));
+                        //TODO filewatcher
+                    } else {
+                        maakAlert("Algemene fout bij genereren integriteitsbestand (file.exists() == false)", "Genereren integriteitsbestand", Alert.AlertType.ERROR);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    maakAlert(String.format("Probleem: %s", e.getMessage()), "Daar ging iets mis!", Alert.AlertType.ERROR);
+                    log("Fout, probeer opnieuw...");
+                    setDisable(false);
+                    btn_maakHandtekening.setText(MAAK_HANDTEKENING);
+                }
+            }
+        } else if(btn_maakHandtekening.getText().equals(STOP)){
+            setDisable(false);
+            btn_maakHandtekening.setText(MAAK_HANDTEKENING);
         }
     }
+
+    private void log(String message)
+    {
+        Date timestamp = new Date();
+        lbl_status.setText(String.format("%s - %s", new SimpleDateFormat("HH:mm:ss").format(timestamp), message));
+    }
+
 
     private void setDisable(boolean disabled) {
         btn_controleerHandtekening.setDisable(disabled);

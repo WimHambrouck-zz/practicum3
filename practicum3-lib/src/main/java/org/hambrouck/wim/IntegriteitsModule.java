@@ -1,5 +1,6 @@
 package org.hambrouck.wim;
 
+import com.sun.org.apache.regexp.internal.RE;
 import com.sun.org.apache.xml.internal.security.utils.Constants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -149,7 +150,43 @@ public class IntegriteitsModule {
         domValidateContext.setURIDereferencer(new CustomURIDereferencer(map));
         XMLSignatureFactory xmlSignatureFactory = XMLSignatureFactory.getInstance("DOM");
         XMLSignature xmlSignature = xmlSignatureFactory.unmarshalXMLSignature(domValidateContext);
-        return xmlSignature.validate(domValidateContext);
+
+        //alle referenties uit signature file halen
+        SignedInfo signedInfo = xmlSignature.getSignedInfo();
+        List<Reference> references = signedInfo.getReferences();
+        List<String> refs = new ArrayList<>(); //was List<File>, maar dan werkt containsAll het niet correct
+
+        //referentielijst omzetten naar lijst met bestanden
+        for (Reference reference : references) {
+            refs.add(reference.getURI());
+        }
+
+        //filter opdat integriteitsbestand zelf niet wordt opgenomen
+        final FilenameFilter filter = new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                if (name.equals(UITVOERBESTAND))
+                    return false;
+                return true;
+            }
+        };
+
+        //alle bestanden in map oplijsten
+        File[] files = map.listFiles(filter);
+        List<String> bestanden = new ArrayList<>();
+
+        for(File file : files)
+        {
+            bestanden.add(file.getName());
+        }
+
+        //check of alle bestanden opgenomen zijn in referenties
+        if(refs.containsAll(bestanden))
+        {
+            return xmlSignature.validate(domValidateContext);
+        } else {
+            return false;
+        }
     }
 
     public static SecretKey maakSleutel(String wachtwoord, String zout) throws NoSuchAlgorithmException, InvalidKeySpecException {

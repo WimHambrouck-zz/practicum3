@@ -60,7 +60,7 @@ public class FXMLController implements Initializable {
     @FXML
     private void maakHandtekeningKlik(ActionEvent event) throws IOException {
         if (btn_maakHandtekening.getText().equals(MAAK_HANDTEKENING)) {
-            if (checkFields(true)) {
+            if (checkFields()) {
                 log(String.format("Bezig met genereren %s...", IntegriteitsModule.UITVOERBESTAND));
                 setDisable(true);
                 btn_maakHandtekening.setText(STOP);
@@ -180,7 +180,7 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void controleerHandtekeningKlik(ActionEvent actionEvent) {
-        if (checkFields(true)) {
+        if (checkFields()) {
             //TODO controleer handtekening
         }
     }

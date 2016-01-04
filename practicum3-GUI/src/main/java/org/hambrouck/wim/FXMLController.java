@@ -137,12 +137,14 @@ public class FXMLController implements Initializable {
                                     }
                                 });
                             }
-                            break; //uit for lust stappen, zelfs meerdere aanpassingen in de eventqueue staan, moet maakHandtekening() maar één keer worden aangeroepen
+                            break;
+                            // uit de for lus stappen. Zelfs als er meerdere aanpassingen in de eventqueue staan,
+                            // moet maakHandtekening() maar één keer worden aangeroepen, gezien die toch de volledige
+                            // map afloopt en derhalve dus alle mogelijke aanpassingen in rekening brengt
                         }
                     }
 
                 }
-
 
                 if (!watchKey.reset()) {
                     timer.stop();
@@ -151,7 +153,6 @@ public class FXMLController implements Initializable {
         });
 
         timer.start();
-
     }
 
     private void unWatchMe(File map) {

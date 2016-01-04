@@ -72,6 +72,7 @@ public class IntegriteitsModule {
         //alle bestanden in de map afgaan en reference maken op basis van naam
         for (File bestand : map.listFiles(filter)) {
             List<Transform> transforms = new LinkedList<>();
+            //Als onderstaande code uit commentaar wordt gehaald, werkt het niet meer
             /*Transform envTransform = xmlSignatureFactory.newTransform(
                     CanonicalizationMethod.ENVELOPED,
                     (C14NMethodParameterSpec) null

@@ -43,6 +43,19 @@ public class IntegriteitsModule {
     public static final String ZOUT = "adrYq%|Sq6XLqa~kAYs=XV7n^blthYy4XztOTRLg-G5Vx^ReHcfl6MZr8uEl";
     public static final String KEY_NAME = "quietly-graded-donkey";
 
+    private static final FilenameFilter getFilter()
+    {
+        //filter opdat integriteitsbestand zelf niet wordt opgenomen
+        return new FilenameFilter() {
+            @Override
+            public boolean accept(File dir, String name) {
+                if (name.equals(UITVOERBESTAND))
+                    return false;
+                return true;
+            }
+        };
+    }
+
     public void maakHandtekening(File map, String wachtwoord) throws Exception {
 
         SecretKey key = maakSleutel(wachtwoord, ZOUT);
@@ -60,18 +73,10 @@ public class IntegriteitsModule {
         // XML Signature references
         List<Reference> references = new LinkedList<>();
 
-        //filter opdat integriteitsbestand zelf niet wordt opgenomen
-        final FilenameFilter filter = new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                if (name.equals(UITVOERBESTAND))
-                    return false;
-                return true;
-            }
-        };
+
 
         //alle bestanden in de map afgaan en reference maken op basis van naam
-        for (File bestand : map.listFiles(filter)) {
+        for (File bestand : map.listFiles(getFilter())) {
             List<Transform> transforms = new LinkedList<>();
             //Als onderstaande code uit commentaar wordt gehaald, werkt het niet meer
             /*Transform envTransform = xmlSignatureFactory.newTransform(
@@ -161,18 +166,8 @@ public class IntegriteitsModule {
             refs.add(reference.getURI());
         }
 
-        //filter opdat integriteitsbestand zelf niet wordt opgenomen
-        final FilenameFilter filter = new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String name) {
-                if (name.equals(UITVOERBESTAND))
-                    return false;
-                return true;
-            }
-        };
-
         //alle bestanden in map oplijsten
-        File[] files = map.listFiles(filter);
+        File[] files = map.listFiles(getFilter());
         List<String> bestanden = new ArrayList<>();
 
         for(File file : files)

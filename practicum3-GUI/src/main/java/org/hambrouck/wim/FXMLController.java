@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.file.*;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -17,9 +19,13 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.stage.DirectoryChooser;
+import org.xml.sax.SAXException;
 
 
 import javax.swing.*;
+import javax.xml.crypto.MarshalException;
+import javax.xml.crypto.dsig.XMLSignatureException;
+import javax.xml.parsers.ParserConfigurationException;
 
 public class FXMLController implements Initializable {
 
@@ -180,11 +186,26 @@ public class FXMLController implements Initializable {
 
     @FXML
     private void controleerHandtekeningKlik(ActionEvent actionEvent) {
+        log("Controleren handtekening...");
         if (checkFields()) {
-            //TODO controleer handtekening
+            if(controleerHandtekening())
+            {
+                maakAlert("Handtekening correct!", "DirWatcher 3000", Alert.AlertType.INFORMATION);
+            } else {
+                maakAlert("Fout bij controle handtekening!", "DirWatcher 3000", Alert.AlertType.ERROR);
+            }
         }
     }
 
+    private boolean controleerHandtekening()
+    {
+        try {
+            return integriteitsModule.controleerIntegriteit(new File(txt_invoer.getText()), txt_wachtwoord.getText());
+        } catch (Exception e) {
+            maakAlert(String.format("Probleem: %s", e.getMessage()), "Daar ging iets fout!", Alert.AlertType.ERROR);
+            return false;
+        }
+    }
 
     private void maakAlert(String message, String title, Alert.AlertType alertType) {
         Alert alert = new Alert(alertType, message, ButtonType.OK);

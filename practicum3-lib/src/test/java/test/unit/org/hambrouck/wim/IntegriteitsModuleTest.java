@@ -114,7 +114,7 @@ public class IntegriteitsModuleTest {
     }
 
     @Test
-    public void testControleerIntegriteitMetAangetasteIntegriteit() throws Exception {
+    public void testControleerIntegriteitMetAangetasteIntegriteitBestandsinhoud() throws Exception {
         File tempDir = File.createTempFile("integrity-", "dir");
         tempDir.delete();
         tempDir.mkdir();
@@ -135,6 +135,40 @@ public class IntegriteitsModuleTest {
                 testedInstance.maakHandtekening(tempDir, WACHTWOORD); //cfr: http://xkcd.com/936/
 
                 FileUtils.writeStringToFile(test1File, "ER IS MEE GEFOEFELD!!!");
+
+                assertEquals(false, testedInstance.controleerIntegriteit(tempDir, WACHTWOORD));
+            } finally {
+                test1File.delete();
+                test2File.delete();
+            }
+        } finally {
+            //FileUtils.deleteDirectory(tempDir);
+            tempDir.delete();
+        }
+    }
+
+    @Test
+    public void testControleerIntegriteitMetAangetasteIntegriteitExtraBestand() throws Exception {
+        File tempDir = File.createTempFile("integrity-", "dir");
+        tempDir.delete();
+        tempDir.mkdir();
+
+        LOGGER.debug(tempDir.getAbsolutePath());
+
+        try {
+            File test1File = new File(tempDir, "test.txt");
+            File test2File = new File(tempDir, "test2.txt");
+            FileUtils.writeStringToFile(test1File, "Dit is een testbestand.");
+            FileUtils.writeStringToFile(test2File, "Dit is ook een testbestand.");
+
+            try {
+                IntegriteitsModule testedInstance = new IntegriteitsModule();
+
+
+                testedInstance.maakHandtekening(tempDir, WACHTWOORD); //cfr: http://xkcd.com/936/
+
+                File testFile3 = new File(tempDir, "test3.txt");
+                FileUtils.writeStringToFile(testFile3, "ER IS MEE GEFOEFELD!!!");
 
                 assertEquals(false, testedInstance.controleerIntegriteit(tempDir, WACHTWOORD));
             } finally {

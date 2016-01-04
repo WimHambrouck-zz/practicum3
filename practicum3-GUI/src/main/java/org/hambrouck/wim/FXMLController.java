@@ -193,7 +193,7 @@ public class FXMLController implements Initializable {
         alert.showAndWait();
     }
 
-    private boolean checkFields(boolean wachtwoordControle) {
+    private boolean checkFields() {
         if (txt_invoer.getText().isEmpty()) {
             maakAlert("Gelieve een invoerbestand op te geven.", "Probleem", Alert.AlertType.ERROR);
             txt_invoer.requestFocus();
@@ -202,11 +202,11 @@ public class FXMLController implements Initializable {
             maakAlert("Gelieve een wachtwoord op te geven.", "Probleem", Alert.AlertType.ERROR);
             txt_wachtwoord.requestFocus();
             return false;
-        } else if (wachtwoordControle && txt_wachtwoord_herhaald.getText().isEmpty()) {
+        } else if (txt_wachtwoord_herhaald.getText().isEmpty()) {
             maakAlert("Gelieve je wachtwoord opnieuw op te geven.", "Probleem", Alert.AlertType.ERROR);
             txt_wachtwoord_herhaald.requestFocus();
             return false;
-        } else if (wachtwoordControle && (!txt_wachtwoord.getText().equals(txt_wachtwoord_herhaald.getText()))) {
+        } else if (!txt_wachtwoord.getText().equals(txt_wachtwoord_herhaald.getText())) {
             maakAlert("Wachtwoorden komen niet overeen!", "Probleem", Alert.AlertType.ERROR);
             txt_wachtwoord.requestFocus();
             return false;

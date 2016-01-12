@@ -2,6 +2,7 @@ package org.hambrouck.wim;
 
 import com.sun.org.apache.regexp.internal.RE;
 import com.sun.org.apache.xml.internal.security.utils.Constants;
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
@@ -73,8 +74,6 @@ public class IntegriteitsModule {
         // XML Signature references
         List<Reference> references = new LinkedList<>();
 
-
-
         //alle bestanden in de map afgaan en reference maken op basis van naam
         for (File bestand : map.listFiles(getFilter())) {
             List<Transform> transforms = new LinkedList<>();
@@ -122,9 +121,12 @@ public class IntegriteitsModule {
         //LOGGER.debug("{}", toString(document));
 
         File uitvoer = new File(map, UITVOERBESTAND);
-        PrintWriter out = new PrintWriter(uitvoer);
+        FileUtils.writeStringToFile(uitvoer, documentToString(document));
+
+
+        /*PrintWriter out = new PrintWriter(uitvoer);
         out.print(documentToString(document));
-        out.close();
+        out.close();*/
     }
 
     public boolean controleerIntegriteit(File map, String wachtwoord) throws InvalidKeySpecException, NoSuchAlgorithmException, IOException, ParserConfigurationException, SAXException, MarshalException, XMLSignatureException {
@@ -184,12 +186,26 @@ public class IntegriteitsModule {
         }
     }
 
+    /**
+     * Genereert HMAC-sleutel via PBKDF2 uit een wachtwoord
+     * @param wachtwoord Wachtwoord te gebruiken voor generatie
+     * @param zout De salt
+     * @return HMAC-sleutel (SecretKey)
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidKeySpecException
+     */
     public static SecretKey maakSleutel(String wachtwoord, String zout) throws NoSuchAlgorithmException, InvalidKeySpecException {
         PBEKeySpec keySpec = new PBEKeySpec(wachtwoord.toCharArray(), zout.getBytes(), 1000, 128);
         SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
         return keyFactory.generateSecret(keySpec);
     }
 
+    /**
+     * Output XML document als String, te gebruiken om XML info weg te schrijven naar bestand
+     * @param node
+     * @return
+     * @throws Exception
+     */
     private static String documentToString(Node node) throws Exception {
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
